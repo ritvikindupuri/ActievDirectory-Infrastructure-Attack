@@ -5,7 +5,7 @@ This project demonstrates the design, deployment, and offensive validation of a 
 
 The core objective was to architect a modern Active Directory (AD) infrastructure and subsequently subject it to a targeted attack simulation. By executing identity reconnaissance, password spraying, and lateral movement attempts, this project proves a critical enterprise security principle: **Assume Breach**. While weak perimeter identities (passwords) can be compromised, a properly hardened internal architecture utilizing strict Least Privilege and network segmentation will successfully contain the blast radius and protect the Domain Controller.
 
-## Tech Stack
+##  Tech Stack
 * **Hyperconverged Infrastructure (HCI):** Nutanix Community Edition (Prism Central, AHV)
 * **Identity & Access Management (IAM):** Active Directory Domain Services (AD DS), Kerberos
 * **Operating Systems:** Windows Server 2025 (Domain Controller), Windows 11 (Endpoints)
@@ -40,9 +40,14 @@ The environment utilizes Nutanix Prism Central to manage multiple host nodes and
 
 <p align="center">
   <img src=".assets/Nutanix Hosts.png" alt="Nutanix Hosts View" width="850"/>
+  <br>
+  <b>Figure 2: Nutanix Centralized Host Management</b>
 </p>
+
 <p align="center">
   <img src=".assets/Nutanix VM List.png" alt="Nutanix Virtual Machines" width="850"/>
+  <br>
+  <b>Figure 3: Virtual Machine Inventory & Status</b>
 </p>
 
 ### 2. Active Directory & FSMO Role Configuration
@@ -50,6 +55,8 @@ A Windows Server 2025 Virtual Machine was promoted to a Domain Controller. To en
 
 <p align="center">
   <img src=".assets/fsmo roles.png" alt="FSMO Roles Validation" width="600"/>
+  <br>
+  <b>Figure 4: FSMO Roles Assigned to Primary Domain Controller</b>
 </p>
 
 ---
@@ -63,6 +70,8 @@ Standard Windows command-line tools (`net user /domain`) were used to enumerate 
 
 <p align="center">
   <img src=".assets/net-user-domain.png" alt="Domain User Enumeration" width="750"/>
+  <br>
+  <b>Figure 5: Active Directory User Enumeration</b>
 </p>
 
 Once the user list was acquired, a simulated password spraying attack was executed against the domain policies.
@@ -72,6 +81,8 @@ The password spray successfully compromised the account `abrown`. A shell was sp
 
 <p align="center">
   <img src=".assets/abrown login.png" alt="Compromised User Login" width="700"/>
+  <br>
+  <b>Figure 6: Successful Compromised User Authentication</b>
 </p>
 
 ### 3. Attack Surface Discovery (SPN Enumeration)
@@ -79,6 +90,8 @@ To prepare for potential privilege escalation, the attacker enumerated Service P
 
 <p align="center">
   <img src=".assets/spn found.png" alt="SPN Enumeration" width="700"/>
+  <br>
+  <b>Figure 7: Kerberos Service Principal Name (SPN) Discovery</b>
 </p>
 
 ---
@@ -92,9 +105,14 @@ Following the compromise, the attacker attempted to assess their access level. Q
 
 <p align="center">
   <img src=".assets/Compromised user.png" alt="User Groups Check" width="800"/>
+  <br>
+  <b>Figure 8: Compromised Account Group Membership Validation</b>
 </p>
+
 <p align="center">
   <img src=".assets/abrown privileges.png" alt="User Privileges Check" width="700"/>
+  <br>
+  <b>Figure 9: Verification of Zero Administrative Privileges</b>
 </p>
 *Result: The Principle of Least Privilege (PoLP) was successfully enforced, preventing immediate local privilege escalation.*
 
@@ -103,6 +121,8 @@ The critical phase of the simulation involved attempting to pivot from the compr
 
 <p align="center">
   <img src=".assets/Lateral movement attempt.png" alt="Lateral Movement Denied" width="700"/>
+  <br>
+  <b>Figure 10: Lateral Movement Blocked by Network Segmentation</b>
 </p>
 
 *Result:* The environment strictly rejected these requests (`System error 6118` and `Access is denied`). The combination of network segmentation between the Nutanix clusters and strict AD Access Control Lists (ACLs) successfully neutralized the attacker's ability to move laterally.
