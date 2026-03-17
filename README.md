@@ -83,7 +83,7 @@ To prepare for potential privilege escalation, the attacker enumerated Service P
 
 ---
 
-## 🛡️ Phase 3: Defensive Posture Validation & Containment
+##  Phase 3: Defensive Posture Validation & Containment
 
 The true test of the architecture was how it responded *after* the initial perimeter was breached.
 
